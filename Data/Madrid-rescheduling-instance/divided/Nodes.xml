@@ -1,0 +1,1121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<st>
+      <Nodos>
+         <item>
+            <Id>1</Id>
+            <Inicio>[1918.5520361991 149.468085106383]</Inicio>
+            <Fin>[3715.5520361991 149.468085106383]</Fin>
+            <Longitud>1797</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>2</Id>
+            <Inicio>[4838.55203619909 149.468085106383]</Inicio>
+            <Fin>[5664.55203619909 149.468085106383]</Fin>
+            <Longitud>826</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>3</Id>
+            <Inicio>[5664.55203619909 149.468085106383]</Inicio>
+            <Fin>[6462.55203619909 149.468085106383]</Fin>
+            <Longitud>798</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>4</Id>
+            <Inicio>[6462.55203619909 149.468085106383]</Inicio>
+            <Fin>[7144.55203619909 149.468085106383]</Fin>
+            <Longitud>682</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>5</Id>
+            <Inicio>[8148.55203619909 149.468085106383]</Inicio>
+            <Fin>[8704.55203619909 149.468085106383]</Fin>
+            <Longitud>556</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>6</Id>
+            <Inicio>[8704.55203619909 149.468085106383]</Inicio>
+            <Fin>[9371.55203619909 149.468085106383]</Fin>
+            <Longitud>667</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>7</Id>
+            <Inicio>[9371.55203619909 149.468085106383]</Inicio>
+            <Fin>[10024.5520361991 149.468085106383]</Fin>
+            <Longitud>653</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>8</Id>
+            <Inicio>[10024.5520361991 149.468085106383]</Inicio>
+            <Fin>[10526.5520361991 149.468085106383]</Fin>
+            <Longitud>502</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>9</Id>
+            <Inicio>[10526.5520361991 149.468085106383]</Inicio>
+            <Fin>[11031.5520361991 149.468085106383]</Fin>
+            <Longitud>505</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-NUEVOS MINISTERIOS</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>10</Id>
+            <Inicio>[11033.3619909502 197.340425531915]</Inicio>
+            <Fin>[10659.3619909502 197.340425531915]</Fin>
+            <Longitud>374</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-NUEVOS MINISTERIOS</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>11</Id>
+            <Inicio>[10659.3619909502 197.340425531915]</Inicio>
+            <Fin>[10121.3619909502 197.340425531915]</Fin>
+            <Longitud>538</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>12</Id>
+            <Inicio>[10121.3619909502 197.340425531915]</Inicio>
+            <Fin>[9524.36199095023 197.340425531915]</Fin>
+            <Longitud>597</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>13</Id>
+            <Inicio>[9524.36199095023 197.340425531915]</Inicio>
+            <Fin>[9070.36199095023 197.340425531915]</Fin>
+            <Longitud>454</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>14</Id>
+            <Inicio>[9070.36199095023 197.340425531915]</Inicio>
+            <Fin>[8638.36199095023 197.340425531915]</Fin>
+            <Longitud>432</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>15</Id>
+            <Inicio>[8638.36199095023 197.340425531915]</Inicio>
+            <Fin>[8058.36199095023 197.340425531915]</Fin>
+            <Longitud>580</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>16</Id>
+            <Inicio>[3519.36199095023 197.340425531915]</Inicio>
+            <Fin>[2266.36199095023 197.340425531915]</Fin>
+            <Longitud>1253</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>17</Id>
+            <Inicio>[2266.36199095023 197.340425531915]</Inicio>
+            <Fin>[2002.36199095023 197.340425531915]</Fin>
+            <Longitud>264</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>18</Id>
+            <Inicio>[11031.5520361991 149.468085106383]</Inicio>
+            <Fin>[11431.5520361991 149.468085106383]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>19</Id>
+            <Inicio>[11431.5520361991 149.468085106383]</Inicio>
+            <Fin>[11631.5520361991 149.468085106383]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>20</Id>
+            <Inicio>[11631.5520361991 149.468085106383]</Inicio>
+            <Fin>[12031.5520361991 149.468085106383]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>21</Id>
+            <Inicio>[12031.5520361991 149.468085106383]</Inicio>
+            <Fin>[12331.5520361991 149.468085106383]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>22</Id>
+            <Inicio>[12331.5520361991 149.468085106383]</Inicio>
+            <Fin>[12631.5520361991 149.468085106383]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>23</Id>
+            <Inicio>[12631.5520361991 149.468085106383]</Inicio>
+            <Fin>[13031.5520361991 149.468085106383]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>24</Id>
+            <Inicio>[13031.5520361991 149.468085106383]</Inicio>
+            <Fin>[13231.5520361991 149.468085106383]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-RECOLETOS</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>25</Id>
+            <Inicio>[13231.5520361991 149.468085106383]</Inicio>
+            <Fin>[13631.5520361991 149.468085106383]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>26</Id>
+            <Inicio>[11033.3619909502 197.340425531915]</Inicio>
+            <Fin>[11433.3619909502 197.340425531915]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>27</Id>
+            <Inicio>[11433.3619909502 197.340425531915]</Inicio>
+            <Fin>[11633.3619909502 197.340425531915]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>28</Id>
+            <Inicio>[11633.3619909502 197.340425531915]</Inicio>
+            <Fin>[12033.3619909502 197.340425531915]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>29</Id>
+            <Inicio>[12033.3619909502 197.340425531915]</Inicio>
+            <Fin>[12333.3619909502 197.340425531915]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>30</Id>
+            <Inicio>[12333.3619909502 197.340425531915]</Inicio>
+            <Fin>[12633.3619909502 197.340425531915]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>31</Id>
+            <Inicio>[12633.3619909502 197.340425531915]</Inicio>
+            <Fin>[13033.3619909502 197.340425531915]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>32</Id>
+            <Inicio>[13033.3619909502 197.340425531915]</Inicio>
+            <Fin>[13233.3619909502 197.340425531915]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-RECOLETOS</IdParada>
+            <Vmax>60</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>33</Id>
+            <Inicio>[13233.3619909502 197.340425531915]</Inicio>
+            <Fin>[13633.3619909502 197.340425531915]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>34</Id>
+            <Inicio>[6626.36199095023 197.340425531915]</Inicio>
+            <Fin>[7065.30920060332 197.228443449048]</Fin>
+            <Longitud>438.947223937251</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>35</Id>
+            <Inicio>[7065.30920060332 197.228443449048]</Inicio>
+            <Fin>[7137.10407239819 197.54572601717]</Fin>
+            <Longitud>0</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>1</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>36</Id>
+            <Inicio>[7144.55203619909 149.468085106383]</Inicio>
+            <Fin>[7206.78733031674 149.673385591638]</Fin>
+            <Longitud>0</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>1</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>37</Id>
+            <Inicio>[7206.78733031674 149.673385591638]</Inicio>
+            <Fin>[8148.55203619909 149.468085106383]</Fin>
+            <Longitud>941.76472825964</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-CHAMARTIN</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>38</Id>
+            <Inicio>[8058.36199095023 197.340425531915]</Inicio>
+            <Fin>[7137.10407239819 197.54572601717]</Fin>
+            <Longitud>921.257941427441</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-CHAMARTIN</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>39</Id>
+            <Inicio>[7206.78733031674 149.673385591638]</Inicio>
+            <Fin>[7270.13574660633 99.7853676745054]</Fin>
+            <Longitud>80.633964172053</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>40</Id>
+            <Inicio>[7270.13574660633 99.7853676745054]</Inicio>
+            <Fin>[8077.04374057315 99.7853676745054]</Fin>
+            <Longitud>806.907993966817</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-CHAMARTIN</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>41</Id>
+            <Inicio>[8077.04374057315 99.7853676745054]</Inicio>
+            <Fin>[8148.55203619909 149.468085106383]</Fin>
+            <Longitud>87.0735824159222</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>42</Id>
+            <Inicio>[7137.10407239819 197.54572601717]</Inicio>
+            <Fin>[7144.55203619909 149.468085106383]</Fin>
+            <Longitud>48.65112249811</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>43</Id>
+            <Inicio>[7065.30920060332 197.228443449048]</Inicio>
+            <Fin>[6934.38914027149 299.673385591639]</Fin>
+            <Longitud>166.237866829096</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>44</Id>
+            <Inicio>[8638.36199095023 197.340425531915]</Inicio>
+            <Fin>[8522.32277526395 249.878686076894]</Fin>
+            <Longitud>127.378838109707</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>45</Id>
+            <Inicio>[8522.32277526395 249.878686076894]</Inicio>
+            <Fin>[8004.26847662142 249.878686076894]</Fin>
+            <Longitud>518.054298642533</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>100</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>46</Id>
+            <Inicio>[8004.26847662142 249.878686076894]</Inicio>
+            <Fin>[7230.95022624434 249.878686076894]</Fin>
+            <Longitud>773.318250377074</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MADRID-CHAMARTIN</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>47</Id>
+            <Inicio>[7230.95022624434 249.878686076894]</Inicio>
+            <Fin>[7114.81146304676 249.878686076894]</Fin>
+            <Longitud>116.138763197587</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>48</Id>
+            <Inicio>[7114.81146304676 249.878686076894]</Inicio>
+            <Fin>[6935.32428355958 349.878686076894]</Fin>
+            <Longitud>205.464467975032</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>49</Id>
+            <Inicio>[6934.38914027149 299.673385591639]</Inicio>
+            <Fin>[6534.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>50</Id>
+            <Inicio>[6534.38914027149 299.673385591639]</Inicio>
+            <Fin>[6134.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>51</Id>
+            <Inicio>[6134.38914027149 299.673385591639]</Inicio>
+            <Fin>[5734.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>52</Id>
+            <Inicio>[5734.38914027149 299.673385591639]</Inicio>
+            <Fin>[5334.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>53</Id>
+            <Inicio>[5334.38914027149 299.673385591639]</Inicio>
+            <Fin>[4934.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>54</Id>
+            <Inicio>[4934.38914027149 299.673385591639]</Inicio>
+            <Fin>[4534.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>55</Id>
+            <Inicio>[4534.38914027149 299.673385591639]</Inicio>
+            <Fin>[4134.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>56</Id>
+            <Inicio>[4134.38914027149 299.673385591639]</Inicio>
+            <Fin>[3734.38914027149 299.673385591639]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>57</Id>
+            <Inicio>[3734.38914027149 299.673385591639]</Inicio>
+            <Fin>[3434.38914027149 299.673385591639]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>58</Id>
+            <Inicio>[3434.38914027149 299.673385591639]</Inicio>
+            <Fin>[3234.38914027149 299.673385591639]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MANOTERAS</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>59</Id>
+            <Inicio>[3234.38914027149 299.673385591639]</Inicio>
+            <Fin>[2934.38914027149 299.673385591639]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>60</Id>
+            <Inicio>[2934.38914027149 299.673385591639]</Inicio>
+            <Fin>[2634.38914027149 299.673385591639]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>61</Id>
+            <Inicio>[2634.38914027149 299.673385591639]</Inicio>
+            <Fin>[2334.38914027149 299.673385591639]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>62</Id>
+            <Inicio>[2334.38914027149 299.673385591639]</Inicio>
+            <Fin>[2034.38914027149 299.673385591639]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>63</Id>
+            <Inicio>[2034.38914027149 299.673385591639]</Inicio>
+            <Fin>[1784.38914027149 299.673385591639]</Fin>
+            <Longitud>250</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>64</Id>
+            <Inicio>[1784.38914027149 299.673385591639]</Inicio>
+            <Fin>[1684.38914027149 299.673385591639]</Fin>
+            <Longitud>100</Longitud>
+            <Parada>1</Parada>
+            <IdParada>VALDEBEBAS</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>65</Id>
+            <Inicio>[6935.32428355958 349.878686076894]</Inicio>
+            <Fin>[6535.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>66</Id>
+            <Inicio>[6535.32428355958 349.878686076894]</Inicio>
+            <Fin>[6135.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>67</Id>
+            <Inicio>[6135.32428355958 349.878686076894]</Inicio>
+            <Fin>[5735.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>68</Id>
+            <Inicio>[5735.32428355958 349.878686076894]</Inicio>
+            <Fin>[5335.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>69</Id>
+            <Inicio>[5335.32428355958 349.878686076894]</Inicio>
+            <Fin>[4935.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>70</Id>
+            <Inicio>[4935.32428355958 349.878686076894]</Inicio>
+            <Fin>[4535.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>71</Id>
+            <Inicio>[4535.32428355958 349.878686076894]</Inicio>
+            <Fin>[4135.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>72</Id>
+            <Inicio>[4135.32428355958 349.878686076894]</Inicio>
+            <Fin>[3735.32428355958 349.878686076894]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>73</Id>
+            <Inicio>[3735.32428355958 349.878686076894]</Inicio>
+            <Fin>[3435.32428355958 349.878686076894]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>74</Id>
+            <Inicio>[3435.32428355958 349.878686076894]</Inicio>
+            <Fin>[3235.32428355958 349.878686076894]</Fin>
+            <Longitud>200</Longitud>
+            <Parada>1</Parada>
+            <IdParada>MANOTERAS</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>75</Id>
+            <Inicio>[3235.32428355958 349.878686076894]</Inicio>
+            <Fin>[2935.32428355958 349.878686076894]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>76</Id>
+            <Inicio>[2935.32428355958 349.878686076894]</Inicio>
+            <Fin>[2635.32428355958 349.878686076894]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>77</Id>
+            <Inicio>[2635.32428355958 349.878686076894]</Inicio>
+            <Fin>[2335.32428355958 349.878686076894]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>78</Id>
+            <Inicio>[2335.32428355958 349.878686076894]</Inicio>
+            <Fin>[2035.32428355958 349.878686076894]</Fin>
+            <Longitud>300</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>79</Id>
+            <Inicio>[2035.32428355958 349.878686076894]</Inicio>
+            <Fin>[1785.32428355958 349.878686076894]</Fin>
+            <Longitud>250</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>80</Id>
+            <Inicio>[1785.32428355958 349.878686076894]</Inicio>
+            <Fin>[1685.32428355958 349.878686076894]</Fin>
+            <Longitud>100</Longitud>
+            <Parada>1</Parada>
+            <IdParada>VALDEBEBAS</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>81</Id>
+            <Inicio>[4975.36199095023 197.340425531915]</Inicio>
+            <Fin>[5726.84766214178 197.340425531915]</Fin>
+            <Longitud>751.485671191549</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>82</Id>
+            <Inicio>[5726.84766214178 197.340425531915]</Inicio>
+            <Fin>[6626.36199095023 197.340425531915]</Fin>
+            <Longitud>899.514328808452</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>83</Id>
+            <Inicio>[3519.36199095023 197.340425531915]</Inicio>
+            <Fin>[3834.84162895928 197.340425531915]</Fin>
+            <Longitud>315.479638009045</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>84</Id>
+            <Inicio>[3834.84162895928 197.340425531915]</Inicio>
+            <Fin>[4261.34238310709 197.340425531915]</Fin>
+            <Longitud>426.500754147813</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>85</Id>
+            <Inicio>[4261.34238310709 197.340425531915]</Inicio>
+            <Fin>[4975.36199095023 197.340425531915]</Fin>
+            <Longitud>714.019607843142</Longitud>
+            <Parada>1</Parada>
+            <IdParada>RAMON Y CAJAL</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>86</Id>
+            <Inicio>[3715.5520361991 149.468085106383]</Inicio>
+            <Fin>[4206.44042232277 149.468085106383]</Fin>
+            <Longitud>490.888386123675</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>87</Id>
+            <Inicio>[4206.44042232277 149.468085106383]</Inicio>
+            <Fin>[4838.55203619909 149.468085106383]</Fin>
+            <Longitud>632.111613876315</Longitud>
+            <Parada>1</Parada>
+            <IdParada>RAMON Y CAJAL</IdParada>
+            <Vmax>95</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>88</Id>
+            <Inicio>[2002.36199095023 197.340425531915]</Inicio>
+            <Fin>[1502.36199095023 197.340425531915]</Fin>
+            <Longitud>500</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>89</Id>
+            <Inicio>[1502.36199095023 197.340425531915]</Inicio>
+            <Fin>[1002.36199095023 197.340425531915]</Fin>
+            <Longitud>500</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>90</Id>
+            <Inicio>[1918.5520361991 149.468085106383]</Inicio>
+            <Fin>[1418.5520361991 149.468085106383]</Fin>
+            <Longitud>500</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>91</Id>
+            <Inicio>[1418.5520361991 149.468085106383]</Inicio>
+            <Fin>[918.5520361991 149.468085106383]</Fin>
+            <Longitud>500</Longitud>
+            <Parada>0</Parada>
+            <IdParada>-</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>92</Id>
+            <Inicio>[918.5520361991 149.468085106383]</Inicio>
+            <Fin>[518.5520361991 149.468085106383]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>1</Parada>
+            <IdParada>PITIS</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+         <item>
+            <Id>93</Id>
+            <Inicio>[1002.36199095023 197.340425531915]</Inicio>
+            <Fin>[602.36199095023 197.340425531915]</Fin>
+            <Longitud>400</Longitud>
+            <Parada>1</Parada>
+            <IdParada>PITIS</IdParada>
+            <Vmax>1000</Vmax>
+            <Semaforo>1</Semaforo>
+            <Ficticio>0</Ficticio>
+            <class>Canton</class>
+         </item>
+      </Nodos>
+</st>

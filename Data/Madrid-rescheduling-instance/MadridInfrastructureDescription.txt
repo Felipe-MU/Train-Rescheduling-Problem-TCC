@@ -1,0 +1,41 @@
+This data is prepared for MATLAB, and can be read using xml_io_tools library ( http://www.mathworks.com/matlabcentral/fileexchange/12907-xmliotools ). It generates a structure which contains all the data. The information between [  ]  
+are matrices (one-dimensional or multidimensional, depending on the data).
+
+For simulation and rescheduling you only need to use Infraestructura and Trenes fields. Infraestructura contains all the data about the infrastructure (track segments are represented as nodes of a graph), and Trenes contains all the
+information about the trains and the initial schedule.
+
+Infraestructura definition:
+
+The infraestructure is defined by a set of nodes (called Nodos) which represents the track segments and a set of edges using the L2QUE format which represents the connections between the nodes (this is represented in Aristas and Posiciones).
+
+Each item (node) has this data:
+<Nodos>
+	 <Id>1</Id> Numerical ID of the track segment
+            <Inicio>[1918.5520361991 149.468085106383]</Inicio> Starting point of the track segment (for drawing)
+            <Fin>[3715.5520361991 149.468085106383]</Fin> End point of the track segment (for drawing)
+            <Longitud>1797</Longitud> Length of the track segment (in metres)
+            <Parada>0</Parada> If track segment is a station (0 not, 1 yes)
+            <IdParada>-</IdParada> Name of the station (if it's a stop)
+            <Vmax>95</Vmax> Maximum speed of trains in this track segment (in km/h)
+            <Semaforo>1</Semaforo>  If a signal exists (0 no, 1 yes)
+            <Ficticio>0</Ficticio> Not necessary
+            <class>Canton</class> Not necessary
+
+The edges of the graph are defined in Aristas, each row represents the connection between two track segments. For example row 1 indicates that track segment 1 is connected with track segment 86.
+Posiciones indicates in the first column a node, and in the second column the first appearance of this node in Aristas matrix. For example, the third row (3 5) indicates that the third node connections start in 5th row of Aristas.
+
+
+Trenes definition:
+
+Each item (train) has this data:
+	<Tsalida>[0 0 0 0 0 0 0 0 0 0 9060 0 0 0 0 0 0]</Tsalida>  Restriction in some track segments about the time when a train can leave a station. 0 represents no restriction, another number imposes that the departure time from this station must be >=. It has the same length as Recorrido.
+         <Tentrada>8580</Tentrada> Initial time from first track segment (in seconds, 0 is the start of the schedule)
+         <Vmax>70</Vmax> Maximum speed of the train (in km/h).
+         <Recorrido>[92 91 90 1 86 87 2 3 4 36 37 5 6 7 8 9 -1]</Recorrido> Route of the train, each value is the ID of a track segment, -1 indicates the end of the schedule.
+         <Tparada>[60 0 0 0 0 60 0 0 0 0 90 0 0 0 0 60 0]</Tparada> Stop time in stations (in seconds). It has the same length as Recorrido.
+         <Origen>PITIS</Origen> Origin station name (not necessary)
+         <Destino>MADRID-NUEVOS MINISTERIOS</Destino> Destination station name (not necessary)
+         <class>Tren</class> (Not necessary)
+
+-----------------
+Description written by José Luis Espinosa Aranda.
