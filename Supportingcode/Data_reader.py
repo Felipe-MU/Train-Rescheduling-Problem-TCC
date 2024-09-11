@@ -1,5 +1,5 @@
 from Supportingcode.Classes import Train, track, station
-# Data reader (from Madrid data)
+# Data reader
 class Track_name:
     def __init__(self, content) -> None:
         self.content = content
@@ -17,15 +17,16 @@ class Track_name:
         
 
 class Data:
-    def __init__(self, name, local) -> None:
+    def __init__(self, name, local, document) -> None:
         self.name = name
         self.local = local
+        self.document = document
     
     def read_data_edb(self):
         tracks = {}
         stations = {}
         trains = {}
-        with open(f'{self.local}{self.name}', 'r') as file:
+        with open(f'{self.local}{self.name}.edb', 'r') as file:
             for line in file:
                 line = line.replace('.', ' ').replace('"', " ")
                 line = line.replace(',',' ').replace('(', ' ').replace(')', ' ').split()
@@ -102,7 +103,10 @@ class Data:
     def write_to_CSV(self):
         import pandas as pd
         dfs ={}
-        tracks, stations, trains, current_time, maxtime = self.read_data()
+        if self.document == "edb":
+            tracks, stations, trains, current_time, maxtime = self.read_data_edb()
+        else:
+            tracks, stations, trains, current_time, maxtime = self.read_data_xml()
         dfs['Train']={ 'current_route':{train.id:train.current_route for train in trains.values()}, 
         'begin_schedule':{train.id:{trackk: train.begin_schedule[trackk] for trackk in train.begin_schedule} for train in trains.values() }, 
         'end_schedule':{train.id:{trackk: train.end_schedule[trackk] for trackk in train.end_schedule} for train in trains.values() },
@@ -122,11 +126,11 @@ class Data:
         import os
         name = self.name.split('.')[0]
         for df in dfs:
-            new_dir = f'NewFiles/{name}/{df}'
+            new_dir = f'CSVFiles/{name}/{df}'
             path = os.path.join(f'{self.local}', new_dir)
             os.makedirs(path)
             for k in dfs[df]:
-                data = pd.DataFrame({k:dfs[df][k]}).to_csv(f'{self.local}NewFiles/{name}/{df}/{k}.csv')
+                data = pd.DataFrame({k:dfs[df][k]}).to_csv(f'{self.local}CSVFiles/{name}/{df}/{k}.csv')
         
             
     
@@ -135,22 +139,18 @@ class Data:
         import pandas as pd
         import os
         name = self.name.split('.')[0]
-        if not os.path.exists(f'{self.local}NewFiles'):
-            self.write_to_CSV()
-        elif not os.path.exists(f'{self.local}NewFiles/{name}'):
-            self.write_to_CSV()
         attributes = {}
         data = {}
         trains = {}
         tracks = {}
         stations = {}
-        for objects in os.listdir(f'{self.local}NewFiles/{name}'):
-            attributes[objects] = [atribute for atribute in os.listdir(f'{self.local}NewFiles/{name}/{objects}')]
+        for objects in os.listdir(f'{self.local}CSVFiles/{name}'):
+            attributes[objects] = [atribute for atribute in os.listdir(f'{self.local}CSVFiles/{name}/{objects}')]
         dfs = {}
         for classe in attributes:
             dfs[classe] = []
             for attribute in attributes[classe]:
-                df = pd.read_csv(f'{self.local}NewFiles/{name}/{classe}/{attribute}')
+                df = pd.read_csv(f'{self.local}CSVFiles/{name}/{classe}/{attribute}')
                 if classe == 'stations':
                     df.rename(columns = {'Unnamed: 0':'name'}, inplace = True)
                 else:

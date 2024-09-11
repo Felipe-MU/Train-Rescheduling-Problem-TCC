@@ -48,14 +48,18 @@ class Train:
 
     
     def __repr__(self) -> str:
-        return f'{self.timeontrack}'
+        return f'{self.current_route}'
     
 
     # @classmethod
     @staticmethod
     def define_dummhnode_timeontrack(trains):
         for train in trains.values():
-            train.timeontrack[0] = train.begin_schedule[train.current_route[1]]
+            # train.timeontrack[0] = train.begin_schedule[train.current_route[1]]
+            try:
+                train.timeontrack[0] = train.begin_schedule[train.current_route[1]]
+            except:
+                pass
 
     
 # Rail system
