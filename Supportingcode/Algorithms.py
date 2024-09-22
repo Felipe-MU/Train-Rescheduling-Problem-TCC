@@ -108,8 +108,6 @@ class rescheduling_problem:
         self.schedule = {(train.id,track): train.begin_schedule[track] for train in self.trains.values() for track in train.stations}
         # Adding the planned stop to the timeontrack
         self.timeonstation = {(train.id,station): train.planned_stop[train.stations[station]] for train in self.trains.values() for station in train.stations}
-        # print(self.timeontrack)
-        # print(self.timeonstation)
         for train in self.trains.values():
             for station in train.stations:
                 self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
@@ -118,6 +116,27 @@ class rescheduling_problem:
     def Model1(self):
         import pyomo.environ as pyo
         self.preparing_data()
+        # for train in self.trains.values():
+        #     print(train.id, train.begin_schedule)
+        # Preprocessing - defining which train goes first
+        ordertrain = []
+        for id in self.A_arcs:
+            if (self.A_arcs[id][1],self.A_arcs[id][0]) in ordertrain:
+                self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
+            elif(self.A_arcs[id][0],self.A_arcs[id][1]) in ordertrain:
+                self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+            else:
+                if self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] > self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+                    ordertrain.append((self.A_arcs[id][1],self.A_arcs[id][0]))
+                    self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
+                elif self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] < self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+                    ordertrain.append((self.A_arcs[id][0],self.A_arcs[id][1]))
+                    self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+            # if self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] > self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+            #     self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
+            # elif self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] < self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+            #     self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+        # With this pre-processing, the train that comes first is in front of the other in the alternative arc
         # Model name
         model = pyo.ConcreteModel(f'Model1 {self.name}')
         # Sets
@@ -130,7 +149,7 @@ class rescheduling_problem:
         model.trains_stations = pyo.Set(initialize = self.trains_stations) #(train, station)
         model.alternative_arcs_id = pyo.Set(initialize = self.alternative_arcs_id)  # range of conflicts
         # Parameters
-        model.M = pyo.Param(initialize = self.maxtime) # just a big number
+        # model.M = pyo.Param(initialize = self.maxtime) # just a big number
         model.A_arcs = pyo.Param(model.alternative_arcs_id, within = pyo.Any, initialize = self.A_arcs) # it must contain the arcs and trains [[(train1, train2, track)], ...]
         model.timeontrack = pyo.Param(model.trains, model.tracks, initialize = self.timeontrack) # {(train, track): timeon}
         model.schedule = pyo.Param(model.trains_stations, initialize = self.schedule)
@@ -138,15 +157,15 @@ class rescheduling_problem:
         model.times = pyo.Var(model.trains_routes, domain = pyo.NonNegativeReals) 
         model.delays = pyo.Var(model.trains_stations, domain = pyo.NonNegativeReals)
         # Alternative arcs variable
-        model.y = pyo.Var(model.alternative_arcs_id, domain = pyo.Binary)
+        # model.y = pyo.Var(model.alternative_arcs_id, domain = pyo.Binary)
         # constraints
-        def AlternativeArcs1( model, arc_id):
-            train1 = list(model.A_arcs[arc_id])[0]
-            train2 = list(model.A_arcs[arc_id])[1]
-            track = list(model.A_arcs[arc_id])[2]
-            # track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)-1] 
-            track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)+1]
-            return(model.times[train1, track] - model.times[train2, track_train2] >= 0 - model.M * (1 - model.y[arc_id]))
+        # def AlternativeArcs1( model, arc_id):
+        #     train1 = list(model.A_arcs[arc_id])[0]
+        #     train2 = list(model.A_arcs[arc_id])[1]
+        #     track = list(model.A_arcs[arc_id])[2]
+        #     # track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)-1] 
+        #     track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)+1]
+        #     return(model.times[train1, track] - model.times[train2, track_train2] >= 0 - model.M * (1 - model.y[arc_id]))
 
         def AlternativeArcs2( model, arc_id):
             train1 = list(model.A_arcs[arc_id])[0]
@@ -154,7 +173,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[2]
             track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)+1] 
             # track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)-1]
-            return(model.times[train2, track] - model.times[train1, track_train1] >= 0 - model.M * (model.y[arc_id]))
+            return(model.times[train2, track] - model.times[train1, track_train1] >= 0)
 
         def DelayConstraint( model, train, station):
             return(model.delays[train, station] >= model.times[train,station] - model.schedule[train,station])
@@ -167,7 +186,7 @@ class rescheduling_problem:
 
 
         model.routeconstraint = pyo.Constraint(model.trains_route_after_entrance_node, rule = RouteConstraint)
-        model.alternativeconstraints1 = pyo.Constraint(model.alternative_arcs_id, rule = AlternativeArcs1)
+        # model.alternativeconstraints1 = pyo.Constraint(model.alternative_arcs_id, rule = AlternativeArcs1)
         model.alternativeconstraints2 = pyo.Constraint(model.alternative_arcs_id, rule = AlternativeArcs2)
         model.delayconstraint = pyo.Constraint(model.trains_stations, rule = DelayConstraint)
 
@@ -179,7 +198,7 @@ class rescheduling_problem:
         model.obj = pyo.Objective(rule = objective, sense = pyo.minimize)
 
         # fixing past events
-        (model.times[train, 0].fix(0) for train in model.trains)
+        # (model.times[train, 0].fix(0) for train in model.trains)
         # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
         # from pyomo.contrib.parmest.utils import ipopt_solve_with_stats
 
@@ -189,7 +208,7 @@ class rescheduling_problem:
         # solver.solve(model)
         # model.display()
         result_1 = solver.solve(model, tee = True)
-        Objective_value = (pyo.value(model.obj))
+        # Objective_value = (pyo.value(model.obj))
         return (model)
 
         # if Warmstart:
@@ -265,7 +284,7 @@ class rescheduling_problem:
         model.obj = pyo.Objective(rule = objective, sense = pyo.minimize)
 
         # fixing past events
-        (model.times[train, 0].fix(0) for train in model.trains)
+        # (model.times[train, 0].fix(0) for train in model.trains)
         # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
         # from pyomo.contrib.parmest.utils import ipopt_solve_with_stats
 
