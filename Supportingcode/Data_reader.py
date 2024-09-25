@@ -171,4 +171,6 @@ class Data:
                     data[attribute_name] = dictionary[attribute_name][0]
         current_time, maxtime, stations, tracks, trains = data.values() 
         Train.define_dummhnode_timeontrack(trains) 
+        for train in trains.values():
+            train.defineST(True)
         return tracks, stations, trains, current_time, maxtime

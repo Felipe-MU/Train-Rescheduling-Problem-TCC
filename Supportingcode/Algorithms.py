@@ -104,7 +104,8 @@ class rescheduling_problem:
         self.trains_stations = [(train, station) for train in self.trains for station in self.trains[train].stations]
         self.alternative_arcs_id = list(range(len(self.alternative_arcs)))
         self.A_arcs = {arc_id: arc for arc_id, arc in enumerate(self.alternative_arcs)}
-        self.timeontrack = {(train.id, Node): train.timeontrack[Node] for train in self.trains.values() for Node in train.timeontrack} 
+        self.timeontrack = {(train.id, Node): train.timeontrack[Node] for train in self.trains.values() for Node in train.timeontrack}
+        self.setup_time = {(train.id, Node): train.setup_times[Node] for train in self.trains.values() for Node in train.timeontrack} 
         self.schedule = {(train.id,track): train.begin_schedule[track] for train in self.trains.values() for track in train.stations}
         # Adding the planned stop to the timeontrack
         self.timeonstation = {(train.id,station): train.planned_stop[train.stations[station]] for train in self.trains.values() for station in train.stations}
@@ -172,6 +173,7 @@ class rescheduling_problem:
         # model.M = pyo.Param(initialize = self.maxtime) # just a big number
         model.A_arcs = pyo.Param(model.alternative_arcs_id, within = pyo.Any, initialize = self.A_arcs) # it must contain the arcs and trains [[(train1, train2, track)], ...]
         model.timeontrack = pyo.Param(model.trains, model.tracks, initialize = self.timeontrack) # {(train, track): timeon}
+        model.setup_time = pyo.Param(model.trains, model.tracks, initialize = self.setup_time)
         model.schedule = pyo.Param(model.trains_stations, initialize = self.schedule)
         # Variables
         model.times = pyo.Var(model.trains_routes, domain = pyo.NonNegativeReals) 
@@ -193,7 +195,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[2]
             track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)+1] 
             # track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)-1]
-            return(model.times[train2, track] - model.times[train1, track_train1] >= 0)
+            return(model.times[train2, track] - model.times[train1, track_train1] >= model.setup_time[train1, track])
 
         def DelayConstraint( model, train, station):
             return(model.delays[train, station] >= model.times[train,station] - model.schedule[train,station])
@@ -256,6 +258,7 @@ class rescheduling_problem:
         model.M = pyo.Param(initialize = self.maxtime) # just a big number
         model.A_arcs = pyo.Param(model.alternative_arcs_id, within = pyo.Any, initialize = self.A_arcs) # it must contain the arcs and trains [[(train1, train2, track)], ...]
         model.timeontrack = pyo.Param(model.trains, model.tracks, initialize = self.timeontrack) # {(train, track): timeon}
+        model.setup_time = pyo.Param(model.trains, model.tracks, initialize = self.setup_time)
         model.schedule = pyo.Param(model.trains_stations, initialize = self.schedule)
         # Variables
         model.times = pyo.Var(model.trains_routes, domain = pyo.NonNegativeReals) 
@@ -269,7 +272,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[2]
             # track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)-1] 
             track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)+1]
-            return(model.times[train1, track] - model.times[train2, track_train2] >= 0 - model.M * (1 - model.y[arc_id]))
+            return(model.times[train1, track] - model.times[train2, track_train2] >= model.setup_time[train2, track] - model.M * (1 - model.y[arc_id]))
 
         def AlternativeArcs2( model, arc_id):
             train1 = list(model.A_arcs[arc_id])[0]
@@ -277,7 +280,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[2]
             track_train1 = list(model.routes[train1])[list(model.routes[train1]).index(track)+1] 
             # track_train2 = list(model.routes[train2])[list(model.routes[train2]).index(track)-1]
-            return(model.times[train2, track] - model.times[train1, track_train1] >= 0 - model.M * (model.y[arc_id]))
+            return(model.times[train2, track] - model.times[train1, track_train1] >= model.setup_time[train1, track] - model.M * (model.y[arc_id]))
 
         def DelayConstraint( model, train, station):
             return(model.delays[train, station] >= model.times[train,station] - model.schedule[train,station])
@@ -349,6 +352,7 @@ class rescheduling_problem:
         model.A_arcs = pyo.Param(model.alternative_arcs_id, within = pyo.Any, initialize = self.A_arcs) # it must contain the arcs and trains and routeids 
         # [(train1, routeid_train1, train2, routeid_train2, track)]
         model.timeontrack = pyo.Param(model.trains, model.tracks, initialize = self.timeontrack) # {(train, track): timeon}
+        model.setup_time = pyo.Param(model.trains, model.tracks, initialize = self.setup_time)
         model.schedule = pyo.Param(model.trains_stations, initialize = self.schedule)
         # Variables
         model.times = pyo.Var(model.trains_routes, domain = pyo.NonNegativeReals) 
@@ -366,7 +370,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[4]
             # track_train1 = list(model.routes[train1, routeid1])[list(model.routes[train1, routeid1]).index(track)-1] 
             track_train2 = list(model.routes[train2, routeid2])[list(model.routes[train2, routeid2]).index(track)+1]
-            return(model.times[train1, routeid1, track] - model.times[train2, routeid2, track_train2] + model.M * (1 - model.r[train1, routeid1]) + model.M * (1 - model.r[train2, routeid2]) + model.M * (1 - model.y[arc_id])) >= 0 
+            return(model.times[train1, routeid1, track] - model.times[train2, routeid2, track_train2] + model.M * (1 - model.r[train1, routeid1]) + model.M * (1 - model.r[train2, routeid2]) + model.M * (1 - model.y[arc_id])) >= model.setup_time[train2, track] 
 
         def AlternativeArcs2( model, arc_id):
             train1 = list(model.A_arcs[arc_id])[0]
@@ -376,7 +380,7 @@ class rescheduling_problem:
             track = list(model.A_arcs[arc_id])[4]
             track_train1 = list(model.routes[train1, routeid1])[list(model.routes[train1, routeid1]).index(track)+1] 
             # track_train2 = list(model.routes[train2, routeid2])[list(model.routes[train2, routeid2]).index(track)-1]
-            return( model.times[train2, routeid2, track] - model.times[train1, routeid1, track_train1] + model.M * (1 - model.r[train1, routeid1]) + model.M * (1 - model.r[train2, routeid2]) + model.M * (model.y[arc_id])) >= 0 
+            return( model.times[train2, routeid2, track] - model.times[train1, routeid1, track_train1] + model.M * (1 - model.r[train1, routeid1]) + model.M * (1 - model.r[train2, routeid2]) + model.M * (model.y[arc_id])) >= model.setup_time[train1, track]
 
         def DelayConstraint( model, train, station):
             return(model.delays[train, station] >= sum(model.times[train, routeid, station] for routeid in model.routes_ids[train]) - model.schedule[train,station])

@@ -9,6 +9,7 @@ class Train:
         self.end_schedule = {}
         self.timeontrack = {}
         self.planned_stop = {}
+        self.setup_times = {}
 
 
     def defining_route(self, previous_track, next_track):
@@ -24,6 +25,10 @@ class Train:
     #                 self.current_route.insert(local+1, self.current_route_buffer[k][1])
     #                 self.current_route.pop(k)
     #                 print(self.current_route_buffer)
+
+    def defineST(self, dumie):
+        if dumie:
+            self.setup_times = {track:0 for track in self.timeontrack}
 
 
     def add_last_track(self):
@@ -50,7 +55,7 @@ class Train:
     def __repr__(self):
     # def __repr__(self) -> str:
         # return f'{self.current_route}'
-        return f'{self.id}'
+        return f'{self.timeontrack}'
     
     
 
