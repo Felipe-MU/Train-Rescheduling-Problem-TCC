@@ -119,19 +119,39 @@ class rescheduling_problem:
         # for train in self.trains.values():
         #     print(train.id, train.begin_schedule)
         # Preprocessing - defining which train goes first
-        ordertrain = []
+        # ordertrain = []
+        # for id in self.A_arcs:
+        #     if (self.A_arcs[id][1],self.A_arcs[id][0]) in ordertrain:
+        #         self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
+        #     elif(self.A_arcs[id][0],self.A_arcs[id][1]) in ordertrain:
+        #         self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+        #     else:
+        #         if self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] > self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+        #             ordertrain.append((self.A_arcs[id][1],self.A_arcs[id][0]))
+        #             self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
+        #         elif self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] < self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
+        #             ordertrain.append((self.A_arcs[id][0],self.A_arcs[id][1]))
+        #             self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+        ordertrain = set()  # Use a set for faster membership checking
         for id in self.A_arcs:
-            if (self.A_arcs[id][1],self.A_arcs[id][0]) in ordertrain:
-                self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
-            elif(self.A_arcs[id][0],self.A_arcs[id][1]) in ordertrain:
-                self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+            arc = self.A_arcs[id]  # Store current arc in a local variable
+            reverse_arc = (arc[1], arc[0])
+            normal_arc = (arc[0], arc[1])
+
+            if reverse_arc in ordertrain:
+                self.A_arcs[id] = (arc[1], arc[0], arc[2])
+            elif normal_arc in ordertrain:
+                self.A_arcs[id] = (arc[0], arc[1], arc[2])
             else:
-                if self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] > self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
-                    ordertrain.append((self.A_arcs[id][1],self.A_arcs[id][0]))
-                    self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
-                elif self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] < self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
-                    ordertrain.append((self.A_arcs[id][0],self.A_arcs[id][1]))
-                    self.A_arcs[id] = (self.A_arcs[id][0],self.A_arcs[id][1],self.A_arcs[id][2])
+                train_0_schedule = self.trains[arc[0]].begin_schedule[arc[2]]
+                train_1_schedule = self.trains[arc[1]].begin_schedule[arc[2]]
+                
+                if train_0_schedule > train_1_schedule:
+                    ordertrain.add(reverse_arc)  # Add to the set
+                    self.A_arcs[id] = (arc[1], arc[0], arc[2])
+                elif train_0_schedule <= train_1_schedule:
+                    ordertrain.add(normal_arc)  # Add to the set
+                    self.A_arcs[id] = (arc[0], arc[1], arc[2])
             # if self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] > self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
             #     self.A_arcs[id] = (self.A_arcs[id][1],self.A_arcs[id][0],self.A_arcs[id][2])
             # elif self.trains[self.A_arcs[id][0]].begin_schedule[self.A_arcs[id][2]] < self.trains[self.A_arcs[id][1]].begin_schedule[self.A_arcs[id][2]]:
@@ -200,24 +220,22 @@ class rescheduling_problem:
         # fixing past events
         # (model.times[train, 0].fix(0) for train in model.trains)
         # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
-        # from pyomo.contrib.parmest.utils import ipopt_solve_with_stats
+        
 
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
+        solver.options['TimeLimit'] = 90
         # solver.solve(model)
         # model.display()
         result_1 = solver.solve(model, tee = True)
-        # Objective_value = (pyo.value(model.obj))
-        return (model)
+        Objective_value = (pyo.value(model.obj))
+        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time)
 
-        # if Warmstart:
-        #     result_1 = solver.solve(model)
-        #     return model
-        # else:
-        #     result_1 = solver.solve(model, logfile = f'Results/Log_File/Fixed Routes/{self.name}-F', tee = True, keepfiles=True)
-        #     Objective_value = (pyo.value(model.obj))
-        #     return (result_1.solver.wallclock_time, Objective_value, len(self.trainsSet), len(self.alternative_arcs_id), 1)
+        ## In case of infeasibility use:
+        # import pyomo.contrib.iis as pyocon
+        # pyocon.write_iis(model, "infeasible_model.ilp")
+        # return (model)
         
 
     def Model2(self):
@@ -291,11 +309,14 @@ class rescheduling_problem:
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
+        solver.options['TimeLimit'] = 90
         # solver.solve(model)
         # model.display()
         result_1 = solver.solve(model, tee = True)
         Objective_value = (pyo.value(model.obj))
-        return (model)
+
+        # return (model)
+        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time)
 
         # if Warmstart:
         #     result_1 = solver.solve(model)
@@ -392,71 +413,7 @@ class rescheduling_problem:
         solver = pyo.SolverFactory('gurobi', solver_io='python')
         solver.options['TimeLimit'] = 90
         result_1 = solver.solve(model, tee = True)
-        return model        
+        Objective_value = (pyo.value(model.obj))
+        # return model  
+        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid))      
         
-        # if (result_1.solver.status == pyo.SolverStatus.ok) and (result_1.solver.termination_condition == pyo.TerminationCondition.optimal):
-        #     # Do something when the solution in optimal and feasible
-        #     Objective_value = (pyo.value(model.obj))
-        #     return (result_1.solver.wallclock_time, Objective_value, len(self.trainsSet), len(self.alternative_arcs_id), Mean_number_of_routes)
-        # elif (result_1.solver.termination_condition == pyo.TerminationCondition.infeasible):
-        #     log_infeasible_constraints(model)
-        #     # Do something when model in infeasible
-        #     return (result_1.solver.wallclock_time, 'infeasible', len(self.trainsSet), len(self.alternative_arcs_id), Mean_number_of_routes)
-        # else:
-        #     # Something else is wrong
-        #     try:
-        #         Objective_value = (pyo.value(model.obj))
-        #         return (result_1.solver.wallclock_time, Objective_value, len(self.trainsSet), len(self.alternative_arcs_id), Mean_number_of_routes)
-        #     except:
-        #         print ('Solver Status: ',  result_1.solver.status)
-        #         return (result_1.solver.wallclock_time, f'{result_1.solver.status}', len(self.trainsSet), len(self.alternative_arcs_id), Mean_number_of_routes)
- 
-
-class experiment:
-    def __init__(self, model, data_files, local, data_name) -> None:
-        for data_file in data_files:
-            self.instance_name = data_file.split('.')[0]
-            experiment_data = Data(data_file, local)
-            tracks, stations, trains, current_time, maxtime = experiment_data.read_from_CSV()
-            problem =  rescheduling_problem(tracks, stations, trains, current_time, maxtime, self.instance_name)
-            if(model == 'F'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.fixed_route(False)
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            elif (model == 'FWS'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.Fixed_Warmstart()
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            elif(model == 'RR'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.With_rerouting(False)
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            elif(model == 'RRshortest'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.With_rerouting(True)
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            elif(model == 'RRWS'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.With_rerouting_and_warmstart(False)
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            elif(model == 'Bi'):
-                time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes = problem.Bi_objective()
-                self.save_results( model, data_name, time, objective, numberTrains, numberAlternativeArcs, Mean_number_of_routes)
-            else:
-                print('Model not implemented')
-        
-    def save_results(self, model, Data_name, time, objective, numberTrains, numberAlternativeArcs, mean_number_of_routes):
-        import pandas as pd
-        import os
-        results = {'Number of trains': numberTrains, 'Number of alternative arcs': numberAlternativeArcs, 'Model Time': time, 'Objective Value': objective, 'Mean number of routes': mean_number_of_routes}
-        if not os.path.exists('Results/ExperimentsResults.xlsx'):
-            df = pd.DataFrame(results, index= [self.instance_name])
-            df.to_excel('Results/ExperimentsResults.xlsx', sheet_name=f'{Data_name}-{model}')
-        else:
-            with pd.ExcelWriter('Results/ExperimentsResults.xlsx', engine='openpyxl', mode='a', if_sheet_exists='replace') as writer: 
-                # timeseries.to_excel(writer, timeseriesSheetName)
-                if not f'{Data_name}-{model}' in pd.ExcelFile('Results/ExperimentsResults.xlsx').sheet_names:
-                    df = pd.DataFrame(results, index= [self.instance_name])
-                    df.to_excel(writer, sheet_name=f'{Data_name}-{model}')
-                else:
-                    atual_df = pd.read_excel('Results/ExperimentsResults.xlsx', sheet_name=f'{Data_name}-{model}', index_col=0)
-                    # new_row = pd.DataFrame(results, index= [self.instance_name])
-                    atual_df.loc[self.instance_name] = results
-                    atual_df.to_excel(writer, sheet_name=f'{Data_name}-{model}')
-
-
