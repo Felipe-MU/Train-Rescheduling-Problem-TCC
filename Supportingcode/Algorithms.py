@@ -36,12 +36,12 @@ class rescheduling_problem:
                 Label[Label.index(track)] = station.name
         self.graph.vs['label'] = Label
         if directed:
-            return ig.plot(self.directed_graph, f"{self.name}.png", bbox=(500, 500), vertex_size = 40 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'sugiyama')
+            return ig.plot(self.directed_graph, f"Data/Example/{self.name}.png", bbox=(500, 500), vertex_size = 40 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'sugiyama')
         else:
             self.graph.simplify()
-            return ig.plot(self.graph, f"{self.name}.png", bbox=(2000, 2000), vertex_size = 30 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'fr')
+            return ig.plot(self.graph, f"Data/Example/{self.name}.png", bbox=(2000, 2000), vertex_size = 30 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'fr')
         
-    def find_alternative_routes(self, shortestpath):
+    def find_alternative_routes(self, shortestpath, numberofroutes):
         alternative_routes = {train.id: [train.current_route[:2]] for train in self.trains.values()}
         import igraph as ig
         n_vertices = len(self.tracks)+2
@@ -59,6 +59,9 @@ class rescheduling_problem:
                 else:
                     alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:])) == 0]
             alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
+            alternative_routes[train.id].remove(train.current_route)
+            alternative_routes[train.id] = sorted(alternative_routes[train.id], key=len)[:numberofroutes-1]
+            alternative_routes[train.id].append(train.current_route)
         self.alternative_routes = {(train, route_id): route for train in alternative_routes for route_id, route in enumerate(alternative_routes[train])} #{(train, routeid): [route]}
         self.alternative_routes_ids = {train: [alternative_route_id for alternative_route_id in range(len(alternative_routes[train]))] for train in alternative_routes} #{train: [routeids]}
         self.train_routesid = [(train, route_id) for train, route_id in self.alternative_routes] #[(train, routeid)]
@@ -114,7 +117,7 @@ class rescheduling_problem:
                 self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
         # print(self.timeontrack)
 
-    def Model1(self):
+    def Model1(self, example: bool):
         import pyomo.environ as pyo
         self.preparing_data()
         # for train in self.trains.values():
@@ -231,8 +234,11 @@ class rescheduling_problem:
         # solver.solve(model)
         # model.display()
         result_1 = solver.solve(model, tee = True)
-        Objective_value = (pyo.value(model.obj))
-        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time)
+        if example:
+            return model
+        else:
+            Objective_value = (pyo.value(model.obj))
+            return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
 
         ## In case of infeasibility use:
         # import pyomo.contrib.iis as pyocon
@@ -240,7 +246,7 @@ class rescheduling_problem:
         # return (model)
         
 
-    def Model2(self):
+    def Model2(self, example: bool):
         import pyomo.environ as pyo
         self.preparing_data()
         # Model name
@@ -316,10 +322,11 @@ class rescheduling_problem:
         # solver.solve(model)
         # model.display()
         result_1 = solver.solve(model, tee = True)
-        Objective_value = (pyo.value(model.obj))
-
-        # return (model)
-        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time)
+        if example:
+            return model
+        else:
+            Objective_value = (pyo.value(model.obj))
+            return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
 
         # if Warmstart:
         #     result_1 = solver.solve(model)
@@ -329,12 +336,12 @@ class rescheduling_problem:
         #     Objective_value = (pyo.value(model.obj))
         #     return (result_1.solver.wallclock_time, Objective_value, len(self.trainsSet), len(self.alternative_arcs_id), 1)
         
-    def Model3(self):
+    def Model3(self, example: bool, numberofroutes: int):
         import pyomo.environ as pyo
         from pyomo.util.infeasible import log_infeasible_constraints
         self.preparing_data()
         # finding alternative routes
-        self.find_alternative_routes(True)
+        self.find_alternative_routes(False,numberofroutes)
         # Model name
         model = pyo.ConcreteModel(f'Model3 {self.name}')
         # Sets
@@ -417,7 +424,9 @@ class rescheduling_problem:
         solver = pyo.SolverFactory('gurobi', solver_io='python')
         solver.options['TimeLimit'] = 90
         result_1 = solver.solve(model, tee = True)
-        Objective_value = (pyo.value(model.obj))
-        # return model  
-        return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid))      
+        if example:
+            return model
+        else:
+            Objective_value = (pyo.value(model.obj))  
+            return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))      
         
