@@ -117,7 +117,7 @@ class rescheduling_problem:
                 self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
         # print(self.timeontrack)
 
-    def Model1(self, example: bool):
+    def Model1(self, example: bool, logfilepath: str):
         import pyomo.environ as pyo
         self.preparing_data()
         # for train in self.trains.values():
@@ -233,7 +233,7 @@ class rescheduling_problem:
         solver.options['TimeLimit'] = 90
         # solver.solve(model)
         # model.display()
-        result_1 = solver.solve(model, tee = True)
+        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model1.log', keepfiles = True)
         if example:
             return model
         else:
@@ -246,7 +246,7 @@ class rescheduling_problem:
         # return (model)
         
 
-    def Model2(self, example: bool):
+    def Model2(self, example: bool, logfilepath: str):
         import pyomo.environ as pyo
         self.preparing_data()
         # Model name
@@ -321,7 +321,7 @@ class rescheduling_problem:
         solver.options['TimeLimit'] = 90
         # solver.solve(model)
         # model.display()
-        result_1 = solver.solve(model, tee = True)
+        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model2.log', keepfiles = True)
         if example:
             return model
         else:
@@ -336,7 +336,7 @@ class rescheduling_problem:
         #     Objective_value = (pyo.value(model.obj))
         #     return (result_1.solver.wallclock_time, Objective_value, len(self.trainsSet), len(self.alternative_arcs_id), 1)
         
-    def Model3(self, example: bool, numberofroutes: int):
+    def Model3(self, example: bool, numberofroutes: int, logfilepath: str):
         import pyomo.environ as pyo
         from pyomo.util.infeasible import log_infeasible_constraints
         self.preparing_data()
@@ -423,10 +423,13 @@ class rescheduling_problem:
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
         solver.options['TimeLimit'] = 90
-        result_1 = solver.solve(model, tee = True)
+        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model3.log', keepfiles = True)
         if example:
             return model
         else:
-            Objective_value = (pyo.value(model.obj))  
-            return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))      
+            try:
+                Objective_value = (pyo.value(model.obj))  
+                return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
+            except:
+                return((len(self.trainsSet), 'No objective value', result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary)))      
         
