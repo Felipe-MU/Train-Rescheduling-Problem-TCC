@@ -25,7 +25,7 @@ class rescheduling_problem:
         # self.alternative_arcs = [[(node, self.trains[trains[0]].current_route[self.trains[trains[0]].current_route.index(node)-1]), (node, self.trains[trains[1]].current_route[self.trains[trains[1]].current_route.index(node)-1]), trains] for trains in self.locations for node in self.locations[trains]]        
         return self.alternative_arcs
     
-    def plot_graph(self, directed):
+    def plot_graph(self, directed, local):
         import igraph as ig
         n_vertices = len(self.tracks)+2
         self.graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next))
@@ -36,13 +36,14 @@ class rescheduling_problem:
                 Label[Label.index(track)] = station.name
         self.graph.vs['label'] = Label
         if directed:
-            return ig.plot(self.directed_graph, f"Data/Example/{self.name}.png", bbox=(500, 500), vertex_size = 40 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'sugiyama')
+            return ig.plot(self.directed_graph, f"{local}{self.name}.png", bbox=(500, 500), vertex_size = 40 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'sugiyama')
         else:
             self.graph.simplify()
-            return ig.plot(self.graph, f"Data/Example/{self.name}.png", bbox=(2000, 2000), vertex_size = 30 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'fr')
+            return ig.plot(self.graph, f"{local}{self.name}.png", bbox=(2000, 2000), vertex_size = 30 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'fr')
         
     def find_alternative_routes(self, shortestpath, numberofroutes):
         alternative_routes = {train.id: [train.current_route[:2]] for train in self.trains.values()}
+        # print(alternative_routes[1][0][-1])
         import igraph as ig
         n_vertices = len(self.tracks)+2
         directed_graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next), directed = True)
@@ -52,13 +53,20 @@ class rescheduling_problem:
                 Label[Label.index(track)] = station.name
         trains_ordered_stations = {train.id: [station for station in train.current_route if station in train.stations] for train in self.trains.values()}
         for train in self.trains.values():
-            for index,station in enumerate(trains_ordered_stations[train.id][:len(trains_ordered_stations[train.id])-1]):
-                next_station = trains_ordered_stations[train.id][index + 1]
-                if shortestpath:
-                    alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_shortest_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:])) == 0]
-                else:
-                    alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:])) == 0]
-            alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
+            if alternative_routes[train.id][0][-1] in trains_ordered_stations[train.id]:
+                for index,station in enumerate(trains_ordered_stations[train.id][:len(trains_ordered_stations[train.id])-1]):
+                    next_station = trains_ordered_stations[train.id][index + 1]
+                    if shortestpath:
+                        alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_shortest_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:])) == 0]
+                    else:
+                        alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:])) == 0]
+                alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
+            else:
+                for station in trains_ordered_stations[train.id][:len(trains_ordered_stations[train.id])]:
+                    alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station)[y][1:])) == 0]
+                alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
+            if numberofroutes > len(alternative_routes):
+                numberofroutes = len(alternative_routes)
             alternative_routes[train.id].remove(train.current_route)
             alternative_routes[train.id] = sorted(alternative_routes[train.id], key=len)[:numberofroutes-1]
             alternative_routes[train.id].append(train.current_route)
@@ -112,9 +120,9 @@ class rescheduling_problem:
         self.schedule = {(train.id,track): train.begin_schedule[track] for train in self.trains.values() for track in train.stations}
         # Adding the planned stop to the timeontrack
         self.timeonstation = {(train.id,station): train.planned_stop[train.stations[station]] for train in self.trains.values() for station in train.stations}
-        for train in self.trains.values():
-            for station in train.stations:
-                self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
+        # for train in self.trains.values():
+        #     for station in train.stations:
+        #         self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
         # print(self.timeontrack)
 
     def Model1(self, example: bool, logfilepath: str):
@@ -223,8 +231,10 @@ class rescheduling_problem:
         model.obj = pyo.Objective(rule = objective, sense = pyo.minimize)
 
         # fixing past events
-        # (model.times[train, 0].fix(0) for train in model.trains)
-        # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
+        for train in model.trains:
+            if self.trains[train].begin_schedule[self.trains[train].current_route[1]]<=self.current_time:
+                model.times[train, self.trains[train].current_route[1]].fix(self.trains[train].begin_schedule[self.trains[train].current_route[1]])
+        
         
 
         # solver
@@ -233,7 +243,7 @@ class rescheduling_problem:
         solver.options['TimeLimit'] = 90
         # solver.solve(model)
         # model.display()
-        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model1.log', keepfiles = True)
+        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model1/{self.name}.log', keepfiles = True)
         if example:
             return model
         else:
@@ -311,17 +321,18 @@ class rescheduling_problem:
         model.obj = pyo.Objective(rule = objective, sense = pyo.minimize)
 
         # fixing past events
-        # (model.times[train, 0].fix(0) for train in model.trains)
-        # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
-        # from pyomo.contrib.parmest.utils import ipopt_solve_with_stats
+        for train in model.trains:
+            if self.trains[train].begin_schedule[self.trains[train].current_route[1]]<=self.current_time:
+                model.times[train, self.trains[train].current_route[1]].fix(self.trains[train].begin_schedule[self.trains[train].current_route[1]])
+        
 
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
-        solver.options['TimeLimit'] = 90
+        solver.options['TimeLimit'] = 3600
         # solver.solve(model)
         # model.display()
-        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model2.log', keepfiles = True)
+        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model2/{self.name}.log', keepfiles = True)
         if example:
             return model
         else:
@@ -419,17 +430,26 @@ class rescheduling_problem:
 
         model.obj = pyo.Objective(rule = objective, sense = pyo.minimize)
 
+        # fixing past events
+        for train in model.trains:
+            if self.trains[train].begin_schedule[self.trains[train].current_route[1]]<=self.current_time or not(self.trains[train].current_route[1] in self.trains[train].stations.keys()):
+                for route in model.routes_ids[train]:
+                    model.times[train, route, self.trains[train].current_route[1]].fix(self.trains[train].begin_schedule[self.trains[train].current_route[1]])
+        # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
+
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
-        solver.options['TimeLimit'] = 90
-        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'{self.name}Model3.log', keepfiles = True)
-        if example:
-            return model
-        else:
-            try:
-                Objective_value = (pyo.value(model.obj))  
-                return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
-            except:
-                return((len(self.trainsSet), 'No objective value', result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary)))      
-        
+        solver.options['TimeLimit'] = 3600
+        try:
+            result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model3/{self.name}{numberofroutes}.log', keepfiles = True)
+            if example:
+                return model
+            else:
+                try:
+                    Objective_value = (pyo.value(model.obj))  
+                    return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
+                except:
+                    return((len(self.trainsSet), 'No objective value', result_1.solver.wallclock_time, len(self.train_routesid), result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary)))      
+        except:
+            return((len(self.trainsSet), 'No objective value',"no solution found", len(self.train_routesid), 'error solution', 'error solution'))

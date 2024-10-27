@@ -172,5 +172,5 @@ class Data:
         current_time, maxtime, stations, tracks, trains = data.values() 
         Train.define_dummhnode_timeontrack(trains) 
         for train in trains.values():
-            train.defineST(True)
+            train.defineST(True,0)
         return tracks, stations, trains, current_time, maxtime
