@@ -1,5 +1,6 @@
 from Supportingcode.Data_reader import Data
 from Supportingcode.Classes import Train
+import numpy as np
 class rescheduling_problem:
     def __init__(self, tracks, stations, trains, current_time, maxtime, name) -> None:
         # finding conflicts
@@ -28,22 +29,16 @@ class rescheduling_problem:
     def plot_graph(self, directed, local):
         import igraph as ig
         n_vertices = len(self.tracks)+2
-        self.graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next))
-        self.directed_graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next), directed = True)
+        directed_graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next), directed = True)
         Label = list(range(n_vertices))
         for station in self.stations.values():
             for track in station.tracks:
                 Label[Label.index(track)] = station.name
-        self.graph.vs['label'] = Label
-        if directed:
-            return ig.plot(self.directed_graph, f"{local}{self.name}.png", bbox=(500, 500), vertex_size = 40 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'sugiyama')
-        else:
-            self.graph.simplify()
-            return ig.plot(self.graph, f"{local}{self.name}.png", bbox=(2000, 2000), vertex_size = 30 ,vertex_label = self.graph.vs['label'], vertex_color = "rgb(235,144,150)", layout = 'fr')
-        
+        directed_graph.vs['label'] = Label
+        return ig.plot(directed_graph, vertex_size = 40 ,vertex_label = directed_graph.vs['label'], vertex_color = "rgb(235,144,150)")
+           
     def find_alternative_routes(self, shortestpath, numberofroutes):
         alternative_routes = {train.id: [train.current_route[:2]] for train in self.trains.values()}
-        # print(alternative_routes[1][0][-1])
         import igraph as ig
         n_vertices = len(self.tracks)+2
         directed_graph = ig.Graph(n_vertices, ((track.id,next_track) for track in self.tracks.values() for next_track in track.next), directed = True)
@@ -53,21 +48,17 @@ class rescheduling_problem:
                 Label[Label.index(track)] = station.name
         trains_ordered_stations = {train.id: [station for station in train.current_route if station in train.stations] for train in self.trains.values()}
         for train in self.trains.values():
-            if alternative_routes[train.id][0][-1] in trains_ordered_stations[train.id]:
-                for index,station in enumerate(trains_ordered_stations[train.id][:len(trains_ordered_stations[train.id])-1]):
-                    next_station = trains_ordered_stations[train.id][index + 1]
-                    if shortestpath:
-                        alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_shortest_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_shortest_paths(v = station, to = next_station)[y][1:])) == 0]
-                    else:
-                        alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = station, to = next_station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = station, to = next_station)[y][1:])) == 0]
-                alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
-            else:
-                for station in trains_ordered_stations[train.id][:len(trains_ordered_stations[train.id])]:
-                    alternative_routes[train.id] = [alternative_routes[train.id][x] + directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station)[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station))) if len(set(alternative_routes[train.id][x]).intersection(directed_graph.get_all_simple_paths(v = alternative_routes[train.id][x][-1], to = station)[y][1:])) == 0]
-                alternative_routes[train.id] = [alternative_routes[train.id][route] + [94] for route in range(len(alternative_routes[train.id]))]
+            if not train.current_route[-2] in trains_ordered_stations[train.id]:
+                trains_ordered_stations[train.id].append(train.current_route[-2])
+            for station in trains_ordered_stations[train.id]:
+                if not station == alternative_routes[train.id][0][-1]:
+                    nextstep = directed_graph.get_all_shortest_paths(v = alternative_routes[train.id][0][-1], to = station)
+                    alternative_routes[train.id] = [alternative_routes[train.id][x] + nextstep[y][1:] for x in range(len(alternative_routes[train.id])) for y in range(len( nextstep)) if len(set(alternative_routes[train.id][x]).intersection(nextstep[y][1:])) == 0]
+            alternative_routes[train.id] = [alternative_routes[train.id][route] + [max(self.tracks)+1] for route in range(len(alternative_routes[train.id]))]
             if numberofroutes > len(alternative_routes):
                 numberofroutes = len(alternative_routes)
-            alternative_routes[train.id].remove(train.current_route)
+            if train.current_route in alternative_routes[train.id]:
+                alternative_routes[train.id].remove(train.current_route)
             alternative_routes[train.id] = sorted(alternative_routes[train.id], key=len)[:numberofroutes-1]
             alternative_routes[train.id].append(train.current_route)
         self.alternative_routes = {(train, route_id): route for train in alternative_routes for route_id, route in enumerate(alternative_routes[train])} #{(train, routeid): [route]}
@@ -91,23 +82,26 @@ class rescheduling_problem:
         # [(train1, routeid_train1, train2, routeid_train2, node)]
 
     def Current_time_adjust(self):
+        trainsinsystem = {}
         for train in self.trains.values():
             for node in train.current_route[1:-1]:
                 if train.end_schedule[node]<self.current_time:
-                    # train.current_route = train.current_route[train.current_route.index(node)+1:]
-                    # print(node, train.id, train.current_route)
                     train.current_route.remove(node)
                     if node in train.stations:
                         train.stations.pop(node)
-                # if train.begin_schedule[node]<self.current_time and train.end_schedule[node]>self.current_time:
-                #     train.timeontrack[node] = train.timeontrack[node] - (self.current_time - train.begin_schedule[node])
-                # print(train.timeontrack)
+                if train.begin_schedule[node]>self.maxtime:
+                    train.current_route.remove(node)
+                    if node in train.stations:
+                        train.stations.pop(node)
+            if len(train.current_route) > 2:
+                trainsinsystem[train.id] = train
+        self.trains = trainsinsystem
         Train.define_dummhnode_timeontrack(self.trains)
 
     def preparing_data(self):
         self.find_Conflicts()
         self.trainsSet = [train.id for train in self.trains.values()]
-        self.tracksSet = [track.id for track in self.tracks.values()]+[0,94]
+        self.tracksSet = [track.id for track in self.tracks.values()]+[0,len(self.tracks)+1]
         self.routes = {train.id: train.current_route for train in self.trains.values()}
         self.routes_stations = {train.id: list(train.stations.keys()) for train in self.trains.values()}
         self.trains_routes = [(train.id, node) for train in self.trains.values() for node in train.current_route]
@@ -118,8 +112,8 @@ class rescheduling_problem:
         self.timeontrack = {(train.id, Node): train.timeontrack[Node] for train in self.trains.values() for Node in train.timeontrack}
         self.setup_time = {(train.id, Node): train.setup_times[Node] for train in self.trains.values() for Node in train.timeontrack} 
         self.schedule = {(train.id,track): train.begin_schedule[track] for train in self.trains.values() for track in train.stations}
-        # Adding the planned stop to the timeontrack
-        self.timeonstation = {(train.id,station): train.planned_stop[train.stations[station]] for train in self.trains.values() for station in train.stations}
+        # # Adding the planned stop to the timeontrack
+        # self.timeonstation = {(train.id,station): train.planned_stop[train.stations[station]] for train in self.trains.values() for station in train.stations}
         # for train in self.trains.values():
         #     for station in train.stations:
         #         self.timeontrack[(train.id, station)] +=  train.planned_stop[train.stations[station]]
@@ -329,16 +323,21 @@ class rescheduling_problem:
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
-        solver.options['TimeLimit'] = 3600
+        solver.options['TimeLimit'] = 600
         # solver.solve(model)
         # model.display()
-        result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model2/{self.name}.log', keepfiles = True)
-        if example:
-            return model
-        else:
-            Objective_value = (pyo.value(model.obj))
-            return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
-
+        try:
+            result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model2/{self.name}.log', keepfiles = True)
+            if example:
+                return model
+            else:
+                try:
+                    Objective_value = (pyo.value(model.obj))  
+                    return (len(self.trainsSet), Objective_value, result_1.solver.wallclock_time, result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary))
+                except:
+                    return((len(self.trainsSet), 'No objective value', result_1.solver.wallclock_time, result_1.solver.termination_condition, sum(1 for v in model.component_data_objects(pyo.Var) if v.domain == pyo.Binary)))      
+        except:
+            return((len(self.trainsSet), 'No objective value',"no solution found", 'error solution', 'error solution'))
         # if Warmstart:
         #     result_1 = solver.solve(model)
         #     return model
@@ -432,7 +431,8 @@ class rescheduling_problem:
 
         # fixing past events
         for train in model.trains:
-            if self.trains[train].begin_schedule[self.trains[train].current_route[1]]<=self.current_time or not(self.trains[train].current_route[1] in self.trains[train].stations.keys()):
+            if not(self.trains[train].current_route[1] in self.trains[train].stations.keys()):
+            # if self.trains[train].begin_schedule[self.trains[train].current_route[1]]<=self.current_time or not(self.trains[train].current_route[1] in self.trains[train].stations.keys()):
                 for route in model.routes_ids[train]:
                     model.times[train, route, self.trains[train].current_route[1]].fix(self.trains[train].begin_schedule[self.trains[train].current_route[1]])
         # (model.times[train, node].fix(model.schedule[train, node]) for train, node in model.Past_times)
@@ -440,7 +440,7 @@ class rescheduling_problem:
         # solver
         # solver = pyo.SolverFactory('cplex_direct')
         solver = pyo.SolverFactory('gurobi', solver_io='python')
-        solver.options['TimeLimit'] = 3600
+        solver.options['TimeLimit'] = 600
         try:
             result_1 = solver.solve(model, tee = True, logfile = logfilepath+f'Model3/{self.name}{numberofroutes}.log', keepfiles = True)
             if example:
